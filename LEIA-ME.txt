@@ -1,0 +1,1 @@
+Vende Fácil - arquivos para GitHub Pages. Extraia este ZIP e envie TODOS os arquivos desta pasta para a raiz do repositório GitHub. Não envie o ZIP. O index.html deve ficar diretamente na raiz.

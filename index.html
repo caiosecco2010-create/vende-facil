@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090909">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png" type="image/png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Vende Fácil">
+<title>Vende Fácil | Controle de Vendas</title>
+<style>
+:root{--bg:#090909;--panel:#121212;--panel2:#191919;--panel3:#202020;--line:#2b2b2b;--text:#f5f5f5;--muted:#999;--orange:#ff851b;--orange2:#ff9d45;--green:#37c978;--red:#ff6262;--radius:18px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+button,input,select{font:inherit}
+button{cursor:pointer}
+.topbar{position:sticky;top:0;z-index:10;background:#0b0b0bee;backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.top-inner{max-width:1100px;margin:auto;padding:15px 20px;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:850;letter-spacing:-.4px;font-size:19px}
+.brand-mark{width:38px;height:38px;border-radius:12px;background:var(--orange);color:#111;display:grid;place-items:center;font-size:21px;box-shadow:0 5px 20px #ff851b30}
+.brand small{display:block;color:var(--muted);font-size:10px;letter-spacing:1.5px;font-weight:700;text-transform:uppercase}
+.date-pill{border:1px solid var(--line);background:#151515;border-radius:999px;padding:8px 12px;color:#bbb;font-size:12px}
+.layout{max-width:1100px;margin:auto;padding:25px 20px 110px}
+.welcome{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:23px}
+.eyebrow{color:var(--orange);font-size:11px;letter-spacing:1.8px;font-weight:800;text-transform:uppercase}
+h1{font-size:clamp(25px,4vw,34px);letter-spacing:-1px;line-height:1.1;margin:7px 0}
+.subtitle{color:var(--muted);margin:0;font-size:14px}
+.page{display:none}.page.active{display:block;animation:fade .18s ease}
+@keyframes fade{from{opacity:.4;transform:translateY(4px)}to{opacity:1;transform:none}}
+.section-title{display:flex;align-items:center;gap:10px;margin:0 0 15px;font-size:17px;letter-spacing:-.3px}
+.section-icon{width:34px;height:34px;display:grid;place-items:center;background:#2a1a0e;color:var(--orange);border:1px solid #573216;border-radius:11px;font-size:17px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:19px;margin-bottom:16px;box-shadow:0 10px 35px #0003}
+.card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:15px}
+.card-head h3{font-size:15px;margin:0;font-weight:750}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-bottom:16px}
+.stat{background:linear-gradient(145deg,#171717,#111);border:1px solid var(--line);border-radius:16px;padding:16px;min-width:0}
+.stat-top{display:flex;align-items:center;justify-content:space-between;gap:6px}
+.stat-icon{width:30px;height:30px;display:grid;place-items:center;border-radius:10px;background:#2a1a0e;color:var(--orange);font-size:15px}
+.stat-label{font-size:12px;color:var(--muted);margin-top:12px}
+.stat-value{font-size:clamp(19px,2.7vw,25px);font-weight:850;letter-spacing:-.7px;margin-top:2px;white-space:nowrap}
+.stat-value.orange{color:var(--orange)}.stat-value.green{color:var(--green)}
+label{display:block;color:#c8c8c8;font-size:12px;font-weight:700;margin:11px 0 6px}
+input,select{width:100%;background:#0c0c0c;color:var(--text);border:1px solid #343434;border-radius:11px;padding:12px 13px;outline:none;min-height:46px}
+input:focus,select:focus{border-color:var(--orange);box-shadow:0 0 0 3px #ff851b18}
+input::placeholder{color:#666}
+.field-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.help{font-size:12px;color:var(--muted);margin:9px 0 0}
+.btn{border:0;border-radius:11px;padding:12px 16px;font-weight:800;transition:.15s}
+.btn:active{transform:scale(.98)}
+.btn-primary{background:var(--orange);color:#17100a}.btn-primary:hover{background:var(--orange2)}
+.btn-secondary{background:#242424;border:1px solid #393939;color:#eee}
+.btn-danger{background:#351819;border:1px solid #60282a;color:#ffb5b5}
+.btn-block{width:100%;margin-top:13px}
+.btn-row{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}.btn-row .btn{flex:1}
+.status{display:inline-flex;align-items:center;gap:7px;color:#bbb;font-size:12px}
+.dot{width:8px;height:8px;background:#666;border-radius:50%}.dot.live{background:var(--green);box-shadow:0 0 10px #37c97880}
+.divider{height:1px;background:var(--line);margin:16px 0}
+.metric-line{display:flex;justify-content:space-between;gap:15px;padding:8px 0;color:#aaa;font-size:13px}.metric-line strong{color:#eee}
+.highlight-box{background:#1c140d;border:1px solid #4b2d15;border-radius:14px;padding:15px}
+.highlight-box .big{font-size:25px;font-weight:850;color:var(--orange)}
+.table-wrap{overflow:auto}
+table{width:100%;border-collapse:collapse;min-width:440px;font-size:13px}
+th{text-align:left;color:#888;font-size:11px;text-transform:uppercase;letter-spacing:.7px;font-weight:800;padding:11px 9px;border-bottom:1px solid var(--line)}
+td{padding:12px 9px;border-bottom:1px solid #242424;color:#ddd}
+.empty{color:#777;text-align:center;padding:25px 10px;font-size:13px}
+.badge{display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border-radius:999px;background:#242424;color:#ccc;font-size:11px;font-weight:750}
+.badge.orange{background:#2b1b0e;color:var(--orange);border:1px solid #533016}
+.nav{position:fixed;bottom:0;left:0;right:0;z-index:20;background:#0d0d0df2;backdrop-filter:blur(15px);border-top:1px solid var(--line);padding:8px max(12px,env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom));}
+.nav-inner{max-width:760px;margin:auto;display:grid;grid-template-columns:repeat(5,1fr);gap:5px}
+.nav button{background:transparent;border:0;color:#777;padding:7px 3px 5px;border-radius:12px;display:flex;flex-direction:column;align-items:center;gap:4px;font-size:10px;font-weight:750}
+.nav button .ico{font-size:19px;line-height:1.1}
+.nav button.active{color:var(--orange);background:#28190e}
+.nav button:focus-visible,.btn:focus-visible{outline:2px solid var(--orange);outline-offset:2px}
+.note{border-left:3px solid var(--orange);padding:9px 12px;background:#17120e;border-radius:0 10px 10px 0;color:#b9aaa0;font-size:12px;margin-top:12px}
+footer{text-align:center;color:#666;font-size:11px;margin-top:25px}
+@media(max-width:680px){.layout{padding:20px 14px 105px}.top-inner{padding:12px 14px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.welcome{align-items:flex-start;flex-direction:column}.date-pill{align-self:flex-start}.card{padding:16px}}
+@media(max-width:390px){.field-grid{grid-template-columns:1fr}.stat{padding:13px}.stat-value{font-size:20px}}
+</style>
+</head>
+<body>
+<header class="topbar">
+ <div class="top-inner">
+  <div class="brand"><div class="brand-mark">🍋</div><div>VENDE FÁCIL<small>CONTROLE DE VENDAS</small></div></div>
+  <div class="date-pill" id="todayLabel">📅 Hoje</div>
+ </div>
+</header>
+<main class="layout">
+ <div class="welcome">
+  <div><div class="eyebrow">PAINEL DO VENDEDOR</div><h1 id="pageHeading">Visão geral</h1><p class="subtitle" id="pageSubtitle">Acompanhe suas vendas de tortas em um só lugar.</p></div>
+  <span class="badge orange" id="liveBadge">● DIA NÃO INICIADO</span>
+ </div>
+
+ <section class="page active" id="page-home">
+  <div class="stats">
+   <div class="stat"><div class="stat-top"><span class="stat-icon">💵</span><span class="badge">Hoje</span></div><div class="stat-label">Faturamento</div><div class="stat-value" id="revenue">R$ 0,00</div></div>
+   <div class="stat"><div class="stat-top"><span class="stat-icon">📈</span><span class="badge">Hoje</span></div><div class="stat-label">Lucro estimado</div><div class="stat-value green" id="profit">R$ 0,00</div></div>
+   <div class="stat"><div class="stat-top"><span class="stat-icon">🥧</span><span class="badge">Unidades</span></div><div class="stat-label">Tortas vendidas</div><div class="stat-value" id="sold">0</div></div>
+   <div class="stat"><div class="stat-top"><span class="stat-icon">⏱️</span><span class="badge">Tempo</span></div><div class="stat-label">Tempo na rua</div><div class="stat-value orange" id="duration">00:00:00</div></div>
+  </div>
+  <div class="card">
+   <div class="card-head"><h3>🚦 Sessão de vendas</h3><span class="status"><i class="dot" id="statusDot"></i><span id="sessionStatus">Não iniciada</span></span></div>
+   <p class="help" style="margin-top:-5px">Comece quando sair para vender e encerre quando terminar.</p>
+   <div class="btn-row"><button class="btn btn-primary" id="startBtn">▶ Iniciar vendas</button><button class="btn btn-secondary" id="finishBtn">■ Encerrar vendas</button></div>
+  </div>
+  <div class="card">
+   <div class="card-head"><h3>📊 Resumo financeiro</h3><span class="badge orange">Hoje</span></div>
+   <div class="metric-line"><span>Faturamento bruto</span><strong id="grossLine">R$ 0,00</strong></div>
+   <div class="metric-line"><span>Custo das tortas vendidas</span><strong id="productCost">R$ 0,00</strong></div>
+   <div class="metric-line"><span>Despesas extras</span><strong id="extraCost">R$ 0,00</strong></div>
+   <div class="divider"></div>
+   <div class="metric-line"><strong>Lucro estimado do dia</strong><strong class="stat-value green" style="font-size:20px" id="profitLine">R$ 0,00</strong></div>
+  </div>
+  <div class="card">
+   <div class="card-head"><h3>⚡ Acesso rápido</h3></div>
+   <div class="btn-row"><button class="btn btn-primary" onclick="showPage('sales')">＋ Registrar venda</button><button class="btn btn-secondary" onclick="showPage('recipe')">🥧 Configurar receita</button></div>
+  </div>
+ </section>
+
+ <section class="page" id="page-recipe">
+  <div class="card">
+   <div class="card-head"><h3>🥧 Custo da sua receita</h3><span class="badge orange">Configuração</span></div>
+   <p class="help" style="margin-top:-4px">Some o que você gasta com ingredientes, embalagem e outros itens para preparar uma receita completa.</p>
+   <div class="field-grid">
+    <div><label for="recipeCost">Gasto total da receita (R$)</label><input id="recipeCost" type="number" min="0" step=".01" placeholder="Ex.: 65,00"></div>
+    <div><label for="recipeYield">Quantas tortas rende?</label><input id="recipeYield" type="number" min="1" step="1" placeholder="Ex.: 10"></div>
+   </div>
+   <div class="divider"></div>
+   <div class="card-head"><h3>🏷️ Preço de venda</h3></div>
+   <label for="price">Preço cobrado por torta (R$)</label><input id="price" type="number" min="0" step=".01" placeholder="Ex.: 12,00">
+   <div class="note">Você pode atualizar esses valores sempre que os ingredientes ou o preço de venda mudarem. Cada venda guarda o custo unitário calculado naquele momento.</div>
+  </div>
+  <div class="grid">
+   <div class="stat"><div class="stat-label">Custo para fazer 1 torta</div><div class="stat-value" id="unitCost">R$ 0,00</div></div>
+   <div class="stat"><div class="stat-label">Lucro por torta</div><div class="stat-value green" id="unitProfit">R$ 0,00</div></div>
+  </div>
+  <div class="card" style="margin-top:16px">
+   <div class="card-head"><h3>🧮 Simulação da receita</h3></div>
+   <div class="metric-line"><span>Valor se vender todas as tortas da receita</span><strong id="batchRevenue">R$ 0,00</strong></div>
+   <div class="metric-line"><span>Custo total para produzir</span><strong id="batchCost">R$ 0,00</strong></div>
+   <div class="divider"></div>
+   <div class="metric-line"><strong>Lucro se vender a receita toda</strong><strong class="stat-value green" style="font-size:20px" id="batchProfit">R$ 0,00</strong></div>
+  </div>
+ </section>
+
+ <section class="page" id="page-sales">
+  <div class="card">
+   <div class="card-head"><h3>🛍️ Registrar uma venda</h3><span class="badge orange">Nova venda</span></div>
+   <p class="help" style="margin-top:-4px">Anote cada venda enquanto estiver na rua. O faturamento e o lucro são atualizados automaticamente.</p>
+   <label for="qty">Quantidade de tortas vendidas</label><input id="qty" type="number" min="1" step="1" value="1">
+   <label for="payment">Como recebeu?</label><select id="payment"><option>Pix</option><option>Dinheiro</option><option>Cartão</option><option>Outro</option></select>
+   <div class="highlight-box" style="margin-top:15px"><div class="help">Total desta venda</div><div class="big" id="salePreview">R$ 0,00</div></div>
+   <button class="btn btn-primary btn-block" id="sellBtn">＋ Confirmar venda</button>
+   <p class="help">É necessário iniciar a sessão de vendas antes de registrar vendas.</p>
+  </div>
+  <div class="card">
+   <div class="card-head"><h3>💳 Recebimentos de hoje</h3></div>
+   <div class="metric-line"><span>Pix</span><strong id="pixTotal">R$ 0,00</strong></div>
+   <div class="metric-line"><span>Dinheiro</span><strong id="cashTotal">R$ 0,00</strong></div>
+   <div class="metric-line"><span>Cartão e outros</span><strong id="otherTotal">R$ 0,00</strong></div>
+  </div>
+ </section>
+
+ <section class="page" id="page-expenses">
+  <div class="card">
+   <div class="card-head"><h3>🧾 Registrar despesa</h3><span class="badge orange">Saída</span></div>
+   <p class="help" style="margin-top:-4px">Anote gastos extras do dia, como transporte, gelo, sacolas ou estacionamento. O custo dos ingredientes já entra na receita.</p>
+   <label for="expenseName">Descrição da despesa</label><input id="expenseName" placeholder="Ex.: passagem, embalagem, água">
+   <label for="expenseValue">Valor gasto (R$)</label><input id="expenseValue" type="number" min="0" step=".01" placeholder="0,00">
+   <button class="btn btn-primary btn-block" id="expenseBtn">＋ Adicionar despesa</button>
+  </div>
+  <div class="card">
+   <div class="card-head"><h3>📉 Total de despesas extras</h3></div>
+   <div class="stat-value orange" id="expenseTotalLarge">R$ 0,00</div>
+  </div>
+ </section>
+
+ <section class="page" id="page-history">
+  <div class="card">
+   <div class="card-head"><h3>📚 Movimentações do dia</h3><span class="badge" id="movementCount">0 registros</span></div>
+   <div id="history" class="empty">Nenhuma venda ou despesa registrada ainda.</div>
+  </div>
+  <div class="card">
+   <div class="card-head"><h3>📤 Relatório</h3></div>
+   <p class="help" style="margin-top:-4px">Baixe um arquivo que pode ser aberto em planilhas para guardar seu resultado.</p>
+   <button class="btn btn-secondary btn-block" id="exportBtn">⬇ Baixar resumo do dia (.csv)</button>
+   <div class="divider"></div>
+   <button class="btn btn-danger btn-block" id="newDayBtn">↻ Encerrar dia e começar outro</button>
+   <p class="help">O resumo atual será baixado antes de limpar os registros deste dia.</p>
+  </div>
+ </section>
+ <footer>VENDE FÁCIL • Seus registros ficam salvos neste navegador e aparelho.</footer>
+</main>
+<nav class="nav"><div class="nav-inner">
+ <button class="active" data-page="home"><span class="ico">⌂</span>Início</button>
+ <button data-page="recipe"><span class="ico">🥧</span>Receita</button>
+ <button data-page="sales"><span class="ico">🛍️</span>Vendas</button>
+ <button data-page="expenses"><span class="ico">🧾</span>Despesas</button>
+ <button data-page="history"><span class="ico">📚</span>Histórico</button>
+</div></nav>
+<script>
+const KEY='meuControleTortas_v1';
+const $=id=>document.getElementById(id);
+const money=n=>Number(n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const now=()=>new Date().toISOString();
+const today=()=>new Date().toLocaleDateString('pt-BR');
+let data=JSON.parse(localStorage.getItem(KEY)||'null')||{date:today(),price:10,recipeCost:50,recipeYield:10,cost:5,startedAt:null,endedAt:null,sales:[],expenses:[]};
+if(data.recipeCost===undefined)data.recipeCost=(Number(data.cost)||0)*10;
+if(data.recipeYield===undefined)data.recipeYield=10;
+if(data.price===undefined)data.price=10;
+if(!data.sales)data.sales=[];if(!data.expenses)data.expenses=[];
+let activePage='home';
+function save(){localStorage.setItem(KEY,JSON.stringify(data));render()}
+function totalQty(){return data.sales.reduce((s,x)=>s+Number(x.qty||0),0)}
+function revenue(){return data.sales.reduce((s,x)=>s+Number(x.total||0),0)}
+function expenseTotal(){return data.expenses.reduce((s,x)=>s+Number(x.value||0),0)}
+function unitCost(){return (Number(data.recipeCost)||0)/Math.max(1,Number(data.recipeYield)||1)}
+function costTotal(){return data.sales.reduce((s,x)=>s+Number(x.qty||0)*(x.unitCost===undefined?unitCost():Number(x.unitCost)),0)}
+function profit(){return revenue()-costTotal()-expenseTotal()}
+function duration(){if(!data.startedAt)return '00:00:00';let end=data.endedAt?new Date(data.endedAt):new Date();let sec=Math.max(0,Math.floor((end-new Date(data.startedAt))/1000));return [Math.floor(sec/3600),Math.floor(sec%3600/60),sec%60].map(n=>String(n).padStart(2,'0')).join(':')}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function render(){
+ $('todayLabel').textContent='📅 '+data.date;
+ $('recipeCost').value=data.recipeCost;$('recipeYield').value=data.recipeYield;$('price').value=data.price;
+ $('unitCost').textContent=money(unitCost());$('unitProfit').textContent=money(data.price-unitCost());
+ $('batchRevenue').textContent=money(data.price*data.recipeYield);$('batchCost').textContent=money(data.recipeCost);$('batchProfit').textContent=money(data.price*data.recipeYield-data.recipeCost);
+ $('revenue').textContent=money(revenue());$('grossLine').textContent=money(revenue());$('profit').textContent=money(profit());$('profitLine').textContent=money(profit());
+ $('sold').textContent=totalQty();$('duration').textContent=duration();$('productCost').textContent=money(costTotal());$('extraCost').textContent=money(expenseTotal());$('expenseTotalLarge').textContent=money(expenseTotal());
+ $('pixTotal').textContent=money(data.sales.filter(x=>x.payment==='Pix').reduce((s,x)=>s+x.total,0));
+ $('cashTotal').textContent=money(data.sales.filter(x=>x.payment==='Dinheiro').reduce((s,x)=>s+x.total,0));
+ $('otherTotal').textContent=money(data.sales.filter(x=>!['Pix','Dinheiro'].includes(x.payment)).reduce((s,x)=>s+x.total,0));
+ $('salePreview').textContent=money(Math.max(0,Number($('qty').value)||0)*Number(data.price||0));
+ const started=!!data.startedAt&&!data.endedAt;
+ $('sessionStatus').textContent=started?'Vendas em andamento':data.endedAt?'Vendas encerradas':'Não iniciada';
+ $('statusDot').className='dot'+(started?' live':'');
+ $('liveBadge').textContent=started?'● VENDENDO AGORA':data.endedAt?'● DIA ENCERRADO':'● DIA NÃO INICIADO';
+ let items=[...data.sales.map(x=>({...x,kind:'Venda',label:x.qty+' torta(s) · '+x.payment,amount:x.total})),...data.expenses.map(x=>({...x,kind:'Despesa',label:x.name,amount:-x.value}))].sort((a,b)=>b.time.localeCompare(a.time));
+ $('movementCount').textContent=items.length+' registros';
+ $('history').innerHTML=items.length?'<div class="table-wrap"><table><thead><tr><th>Hora</th><th>Tipo</th><th>Detalhe</th><th>Valor</th></tr></thead><tbody>'+items.map(x=>`<tr><td>${new Date(x.time).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'})}</td><td>${x.kind==='Venda'?'🛍️ Venda':'🧾 Despesa'}</td><td>${escapeHtml(x.label)}</td><td style="color:${x.amount<0?'#ff8585':'#eee'}">${money(x.amount)}</td></tr>`).join('')+'</tbody></table></div>':'<div class="empty">📭<br>Nenhuma venda ou despesa registrada ainda.</div>';
+}
+const pageInfo={home:['Visão geral','Acompanhe suas vendas de tortas em um só lugar.'],recipe:['Sua receita','Cadastre o custo de produção e o preço de venda.'],sales:['Registrar vendas','Anote cada torta que sair para o cliente.'],expenses:['Despesas','Controle os gastos extras do seu dia.'],history:['Histórico','Confira e salve as movimentações do dia.']};
+function showPage(name){activePage=name;document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id==='page-'+name));document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.page===name));$('pageHeading').textContent=pageInfo[name][0];$('pageSubtitle').textContent=pageInfo[name][1];window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('.nav button').forEach(b=>b.addEventListener('click',()=>showPage(b.dataset.page)));
+$('recipeCost').addEventListener('change',()=>{data.recipeCost=Math.max(0,Number($('recipeCost').value)||0);save()});
+$('recipeYield').addEventListener('change',()=>{data.recipeYield=Math.max(1,Math.floor(Number($('recipeYield').value)||1));save()});
+$('price').addEventListener('change',()=>{data.price=Math.max(0,Number($('price').value)||0);save()});
+$('qty').addEventListener('input',()=>$('salePreview').textContent=money(Math.max(0,Number($('qty').value)||0)*Number(data.price||0)));
+$('startBtn').onclick=()=>{if(data.startedAt&&!data.endedAt)return alert('As vendas já estão em andamento.');data.startedAt=now();data.endedAt=null;save()};
+$('finishBtn').onclick=()=>{if(!data.startedAt)return alert('Inicie as vendas primeiro.');if(data.endedAt)return alert('As vendas já foram encerradas.');data.endedAt=now();save()};
+$('sellBtn').onclick=()=>{let qty=Math.floor(Number($('qty').value));if(!Number.isFinite(qty)||qty<1)return alert('Digite uma quantidade válida.');if(!data.startedAt)return alert('Clique em “Iniciar vendas” antes de registrar a primeira venda.');if(data.endedAt)return alert('As vendas foram encerradas.');data.sales.push({qty,total:qty*data.price,unitCost:unitCost(),payment:$('payment').value,time:now()});$('qty').value=1;save()};
+$('expenseBtn').onclick=()=>{let name=$('expenseName').value.trim(),value=Number($('expenseValue').value);if(!name||!Number.isFinite(value)||value<=0)return alert('Informe a despesa e um valor maior que zero.');data.expenses.push({name,value,time:now()});$('expenseName').value='';$('expenseValue').value='';save()};
+function csv(){let lines=[['Data',data.date],['Custo da receita inteira',data.recipeCost],['Rendimento da receita (tortas)',data.recipeYield],['Custo calculado por torta',unitCost()],['Preço de venda por torta',data.price],['Início',data.startedAt||''],['Fim',data.endedAt||''],['Tortas vendidas',totalQty()],['Faturamento',revenue()],['Custo das tortas vendidas',costTotal()],['Despesas extras',expenseTotal()],['Lucro estimado',profit()],[],['Horário','Tipo','Detalhe','Valor']];data.sales.forEach(x=>lines.push([new Date(x.time).toLocaleTimeString('pt-BR'),'Venda',x.qty+' torta(s) - '+x.payment,x.total]));data.expenses.forEach(x=>lines.push([new Date(x.time).toLocaleTimeString('pt-BR'),'Despesa',x.name,-x.value]));let content='\ufeff'+lines.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\n');let a=document.createElement('a');a.href=URL.createObjectURL(new Blob([content],{type:'text/csv;charset=utf-8;'}));a.download='resumo-vendas-tortas-'+data.date.replaceAll('/','-')+'.csv';a.click();URL.revokeObjectURL(a.href)}
+$('exportBtn').onclick=csv;
+$('newDayBtn').onclick=()=>{if(!confirm('Baixar o resumo de hoje e limpar os registros para começar outro dia?'))return;csv();data={date:today(),price:data.price,recipeCost:data.recipeCost,recipeYield:data.recipeYield,startedAt:null,endedAt:null,sales:[],expenses:[]};save();showPage('home')};
+render();
+setInterval(()=>{if(data.startedAt&&!data.endedAt){$('duration').textContent=duration()}},1000);
+if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js').catch(err => console.warn('Não foi possível ativar o modo offline:', err))); }
+</script>
+</body>
+</html>
