@@ -258,5 +258,13 @@ render();
 setInterval(()=>{if(data.startedAt&&!data.endedAt){$('duration').textContent=duration()}},1000);
 if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js').catch(err => console.warn('Não foi possível ativar o modo offline:', err))); }
 </script>
+ <div style="
+  text-align: center;
+  padding: 15px;
+  color: #888;
+  font-size: 12px;
+">
+  Desenvolvido por @llu.xentzz © 2026
+</div>
 </body>
 </html>
